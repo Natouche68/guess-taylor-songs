@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;700&family=Playball&display=swap");
+
+:root {
+	font-family: "Josefin Sans", sans-serif;
+	font-size: 16px;
+
+	--background-color: #190a1a;
+	--text-color: #ffeded;
+	--primary-color: #7436ab;
+}
+
+body {
+	background: var(--background-color);
+	color: var(--text-color);
+}
