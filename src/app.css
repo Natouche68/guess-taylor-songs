@@ -7,9 +7,14 @@
 	--background-color: #190a1a;
 	--text-color: #ffeded;
 	--primary-color: #7436ab;
+	--secondary-color: #bd93bd;
 }
 
 body {
 	background: var(--background-color);
 	color: var(--text-color);
+}
+
+button {
+	font-family: "Josefin Sans", sans-serif;
 }
