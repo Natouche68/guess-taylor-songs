@@ -1,13 +1,18 @@
 <script>
+	import { score, question } from "./score";
+
 	export let possibilities;
 	export let correct;
 
 	function answered(index) {
 		if (index === correct) {
-			alert("Correct !");
+			score.set($score + 1);
+			alert("Correct !" + $score);
 		} else {
 			alert("Wrong !");
 		}
+
+		question.set($question + 1);
 	}
 </script>
 
