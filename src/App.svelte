@@ -19,6 +19,8 @@
 	}
 
 	function newQuestion() {
+		alert($score);
+
 		const possibilities = [];
 		const songList = structuredClone(songs);
 
@@ -41,7 +43,11 @@
 	{#if gameStarted}
 		<div class="quiz">
 			<Player song={songId} />
-			<Answers possibilities={possibilitiesNames} {correct} />
+			<Answers
+				possibilities={possibilitiesNames}
+				{correct}
+				on:answered={newQuestion}
+			/>
 		</div>
 	{:else}
 		<div class="start-screen">

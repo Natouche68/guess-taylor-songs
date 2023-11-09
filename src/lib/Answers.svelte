@@ -1,18 +1,20 @@
 <script>
+	import { createEventDispatcher } from "svelte";
 	import { score, question } from "./score";
 
 	export let possibilities;
 	export let correct;
 
+	const dispatch = createEventDispatcher();
+
 	function answered(index) {
 		if (index === correct) {
 			score.set($score + 1);
-			alert("Correct !" + $score);
-		} else {
-			alert("Wrong !");
 		}
 
 		question.set($question + 1);
+
+		dispatch("answered");
 	}
 </script>
 
