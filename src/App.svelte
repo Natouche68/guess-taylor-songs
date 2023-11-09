@@ -1,8 +1,38 @@
 <script>
 	import Player from "./lib/Player.svelte";
 	import Answers from "./lib/Answers.svelte";
+	import { score, question } from "./lib/score";
+	import { songs } from "./lib/songs";
 
 	let gameStarted = false;
+	let possibilitiesNames;
+	let correct;
+	let songId;
+
+	function startGame() {
+		gameStarted = true;
+
+		score.set(0);
+		question.set(1);
+
+		newQuestion();
+	}
+
+	function newQuestion() {
+		const possibilities = [];
+		const songList = structuredClone(songs);
+
+		for (let i = 0; i < 4; i++) {
+			let index = Math.floor(Math.random() * songList.length);
+			possibilities.push(songList.splice(index, 1)[0]);
+		}
+
+		possibilitiesNames = possibilities.map((song) => song.name);
+
+		correct = Math.floor(Math.random() * 4);
+
+		songId = possibilities[correct].id;
+	}
 </script>
 
 <div class="app">
@@ -10,22 +40,12 @@
 
 	{#if gameStarted}
 		<div class="quiz">
-			<Player song="kx0rALx7PIg" />
-			<Answers
-				possibilities={[
-					"Shake it off",
-					"Blank space",
-					"Wildest dreams",
-					"Bad blood",
-				]}
-				correct={0}
-			/>
+			<Player song={songId} />
+			<Answers possibilities={possibilitiesNames} {correct} />
 		</div>
 	{:else}
 		<div class="start-screen">
-			<button class="start" on:click={() => (gameStarted = true)}>
-				Start the game !
-			</button>
+			<button class="start" on:click={startGame}>Start the game !</button>
 		</div>
 	{/if}
 </div>
