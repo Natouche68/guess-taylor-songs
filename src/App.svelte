@@ -4,13 +4,13 @@
 	import { score, question } from "./lib/score";
 	import { songs } from "./lib/songs";
 
-	let gameStarted = false;
+	let gameState = "start";
 	let possibilitiesNames;
 	let correct;
 	let songId;
 
 	function startGame() {
-		gameStarted = true;
+		gameState = "game";
 
 		score.set(0);
 		question.set(1);
@@ -19,7 +19,21 @@
 	}
 
 	function newQuestion() {
-		alert($score);
+		if (songId) {
+			let songToRemove;
+
+			songs.forEach((song, index) => {
+				if (song.id === songId) {
+					songToRemove = index;
+				}
+			});
+
+			songs.splice(songToRemove, 1);
+		}
+
+		if ($question > 10) {
+			gameState = "end";
+		}
 
 		const possibilities = [];
 		const songList = structuredClone(songs);
@@ -40,7 +54,11 @@
 <div class="app">
 	<div class="title">Guess Taylor's Songs</div>
 
-	{#if gameStarted}
+	{#if gameState === "start"}
+		<div class="start-screen">
+			<button class="start" on:click={startGame}>Start the game !</button>
+		</div>
+	{:else if gameState === "game"}
 		<div class="quiz">
 			<Player song={songId} />
 			<Answers
@@ -49,9 +67,12 @@
 				on:answered={newQuestion}
 			/>
 		</div>
-	{:else}
-		<div class="start-screen">
-			<button class="start" on:click={startGame}>Start the game !</button>
+	{:else if gameState === "end"}
+		<div class="end-screen">
+			Your score :
+			<div class="score">
+				{$score}
+			</div>
 		</div>
 	{/if}
 </div>
@@ -100,5 +121,32 @@
 		color: var(--primary-color);
 		filter: drop-shadow(0 0 4rem var(--primary-color));
 		transform: scale(1.1);
+	}
+
+	.end-screen {
+		text-align: center;
+		margin-top: 10rem;
+		font-size: 2.4rem;
+		font-weight: 500;
+		color: var(--secondary-color);
+	}
+
+	.score {
+		margin: 2rem;
+		font-size: 9rem;
+		font-weight: 700;
+		color: var(--text-color);
+		animation: score-glow 2s ease 0s infinite;
+	}
+
+	@keyframes score-glow {
+		0%,
+		100% {
+			filter: drop-shadow(0 0 3.2rem var(--secondary-color));
+		}
+
+		50% {
+			filter: drop-shadow(0 0 2rem var(--primary-color));
+		}
 	}
 </style>
