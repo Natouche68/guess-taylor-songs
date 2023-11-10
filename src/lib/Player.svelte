@@ -5,7 +5,9 @@
 <div class="player">
 	<iframe
 		title="Music to guess"
-		src="https://www.youtube.com/embed/{song}?autoplay=1&controls=0&loop=1"
+		src="https://www.youtube.com/embed/{song}?autoplay=1&controls=0&loop=1&start={Math.floor(
+			Math.random() * 20
+		) + 10}"
 		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 	/>
 	<img
