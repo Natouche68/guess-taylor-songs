@@ -1,7 +1,7 @@
 <script>
 	import Player from "./lib/Player.svelte";
 	import Answers from "./lib/Answers.svelte";
-	import { score, question } from "./lib/score";
+	import { score, question, highscore } from "./lib/score";
 	import { songs } from "./lib/songs";
 
 	let gameState = "start";
@@ -33,6 +33,13 @@
 
 		if ($question > 10) {
 			gameState = "end";
+
+			if ($score > $highscore) {
+				highscore.set($score);
+				localStorage.setItem("highscore", String($highscore));
+			}
+
+			return;
 		}
 
 		const possibilities = [];
@@ -57,6 +64,10 @@
 	{#if gameState === "start"}
 		<div class="start-screen">
 			<button class="start" on:click={startGame}>Start the game !</button>
+			Best score :
+			<div class="highscore">
+				{$highscore}
+			</div>
 		</div>
 	{:else if gameState === "game"}
 		<div class="quiz">
@@ -87,23 +98,18 @@
 		border-bottom: 3px solid var(--secondary-color);
 	}
 
-	.quiz {
-		margin-top: 5rem;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-	}
-
 	.start-screen {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		margin-top: 8rem;
+		font-size: 2rem;
+		color: var(--secondary-color);
 	}
 
 	.start {
+		margin-bottom: 3rem;
 		padding: 1.5rem;
 		background: var(--primary-color);
 		color: var(--text-color);
@@ -114,6 +120,20 @@
 		outline: none;
 		cursor: pointer;
 		transition: all 0.4s ease;
+	}
+
+	.highscore {
+		font-size: 5rem;
+		font-weight: 600;
+		color: var(--text-color);
+	}
+
+	.quiz {
+		margin-top: 5rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.start:hover {
