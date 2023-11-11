@@ -1,5 +1,6 @@
 <script>
 	import { createEventDispatcher } from "svelte";
+	import { fade } from "svelte/transition";
 	import { score, question } from "./score";
 
 	export let possibilities;
@@ -26,7 +27,7 @@
 	}
 </script>
 
-<div class="answers" class:answered={hasAnswered}>
+<div class="answers" class:answered={hasAnswered} in:fade>
 	{#each possibilities as possibility, index}
 		<button
 			class="possibility"
