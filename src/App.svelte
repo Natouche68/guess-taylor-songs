@@ -45,14 +45,18 @@
 		const possibilities = [];
 		const songList = structuredClone(songs);
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 5; i++) {
 			let index = Math.floor(Math.random() * songList.length);
 			possibilities.push(songList.splice(index, 1)[0]);
 		}
 
-		possibilitiesNames = possibilities.map((song) => song.name);
+		possibilitiesNames = possibilities.map((song, index) => {
+			if (index !== 4) {
+				return song.name;
+			}
+		});
 
-		correct = Math.floor(Math.random() * 4);
+		correct = Math.floor(Math.random() * 5);
 
 		songId = possibilities[correct].id;
 	}

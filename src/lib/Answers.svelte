@@ -29,14 +29,24 @@
 
 <div class="answers" class:answered={hasAnswered} in:fade>
 	{#each possibilities as possibility, index}
-		<button
-			class="possibility"
-			class:correct={index === correct}
-			on:click={() => answered(index)}
-		>
-			{possibility}
-		</button>
+		{#if index !== 4}
+			<button
+				class="possibility"
+				class:correct={index === correct}
+				on:click={() => answered(index)}
+			>
+				{possibility}
+			</button>
+		{/if}
 	{/each}
+	<button
+		class="possibility"
+		class:correct={correct === 4}
+		on:click={() => answered(4)}
+		style:font-style="italic"
+	>
+		None of them
+	</button>
 </div>
 
 <style>
