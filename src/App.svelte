@@ -98,7 +98,7 @@
 	.title {
 		padding: 0.6rem;
 		text-align: center;
-		font-family: "Playball", cursive;
+		font-family: "Lusitana", serif;
 		font-size: 3.6rem;
 		font-weight: 700;
 		border-bottom: 3px solid var(--secondary-color);
