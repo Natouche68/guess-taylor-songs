@@ -5,22 +5,34 @@
 	export let possibilities;
 	export let correct;
 
+	let hasAnswered = false;
+
 	const dispatch = createEventDispatcher();
 
 	function answered(index) {
-		if (index === correct) {
-			score.set($score + 1);
+		if (!hasAnswered) {
+			hasAnswered = true;
+
+			if (index === correct) {
+				score.set($score + 1);
+			}
+
+			question.set($question + 1);
+
+			setTimeout(() => {
+				dispatch("answered");
+			}, 1500);
 		}
-
-		question.set($question + 1);
-
-		dispatch("answered");
 	}
 </script>
 
-<div class="answers">
+<div class="answers" class:answered={hasAnswered}>
 	{#each possibilities as possibility, index}
-		<button class="possibility" on:click={() => answered(index)}>
+		<button
+			class="possibility"
+			class:correct={index === correct}
+			on:click={() => answered(index)}
+		>
 			{possibility}
 		</button>
 	{/each}
@@ -52,5 +64,15 @@
 	.possibility:hover {
 		background: var(--secondary-color);
 		color: var(--primary-color);
+	}
+
+	.answers.answered .possibility {
+		transform: scale(0.95);
+		filter: grayscale(1);
+	}
+
+	.answers.answered .possibility.correct {
+		transform: scale(1.05);
+		filter: drop-shadow(0 0 2rem var(--primary-color));
 	}
 </style>

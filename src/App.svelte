@@ -72,11 +72,13 @@
 	{:else if gameState === "game"}
 		<div class="quiz">
 			<Player song={songId} />
-			<Answers
-				possibilities={possibilitiesNames}
-				{correct}
-				on:answered={newQuestion}
-			/>
+			{#key songId}
+				<Answers
+					possibilities={possibilitiesNames}
+					{correct}
+					on:answered={newQuestion}
+				/>
+			{/key}
 		</div>
 	{:else if gameState === "end"}
 		<div class="end-screen">
