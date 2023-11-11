@@ -1,5 +1,5 @@
 <script>
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher, onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import { score, question } from "./score";
 
@@ -7,15 +7,30 @@
 	export let correct;
 
 	let hasAnswered = false;
+	let timePassed = 0;
 
 	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			timePassed += 0.1;
+		}, 100);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
 
 	function answered(index) {
 		if (!hasAnswered) {
 			hasAnswered = true;
 
 			if (index === correct) {
-				score.set($score + 1);
+				const scoreToAdd = Math.floor((20 - timePassed) * 10);
+
+				if (scoreToAdd > 0) {
+					score.set($score + scoreToAdd);
+				}
 			}
 
 			question.set($question + 1);
